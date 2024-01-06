@@ -3,25 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+    --bg-btn-default: #7878ff;
+    --bg-error: #ec3434;
+    --bg-warning: #ffae15;
+    --bg-success: #00b954;
+
+    --clr-grey: rgba(227, 227, 227, 0.3);
+
+    --fs-xxl: "58px";
+    --fs-xl: "42px";
+    --fs-lg: "36px";
+    --fs-md: "18px";
+    --fs-sm: "16px";
+    --fs-m: "13px";
+    --fs-s: "10px";
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+
+    }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+}
+
+.bg-btn-default {
+    background-color: var(--bg-btn-default);
+}
+
+.text-btn-default {
+    color: #ececec;
 }
