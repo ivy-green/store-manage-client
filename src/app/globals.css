@@ -6,12 +6,13 @@
     --foreground-rgb: 0, 0, 0;
     --background-start-rgb: 214, 219, 220;
     --background-end-rgb: 255, 255, 255;
-    --bg-btn-default: #7878ff;
+    --bg-btn-default: var(--clr-primary);
     --bg-error: #ec3434;
     --bg-warning: #ffae15;
     --bg-success: #00b954;
 
     --clr-grey: rgba(227, 227, 227, 0.3);
+    --clr-primary: #0273b9;
 
     --fs-xxl: "58px";
     --fs-xl: "42px";

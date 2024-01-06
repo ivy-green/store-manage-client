@@ -70,7 +70,7 @@ export const MyTable = ({
                     />
                 )}
                 {list.length > 0 ? (
-                    <div className="my_table_wrapper border-2 rounded-[10px]">
+                    <div className="border-2 rounded-[10px]">
                         <MyTableRow
                             showCheckBox={showCheckBox}
                             data={headers}

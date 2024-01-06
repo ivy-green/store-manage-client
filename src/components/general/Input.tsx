@@ -63,7 +63,7 @@ export function Input({
                     />
                 )}
                 <input
-                    className="text_dark w-[100%] focus:outline-none"
+                    className="text_dark w-[100%] focus:outline-none rounded-[10px]"
                     placeholder={placeholder}
                     value={value}
                     type={type}

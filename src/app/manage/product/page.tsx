@@ -1,29 +1,32 @@
 'use client'
-import React, {useState} from 'react';
-import MyButton from "@/components/general/MyButton";
-import {MyTable} from "@/components/general/table/MyTable";
-import {Plus, XCircle} from "phosphor-react";
-import {Modal} from "reactstrap";
-import MyModal from "@/components/general/dialog/MyDialog";
-import MyDialog from "@/components/general/dialog/MyDialog";
-import ConfirmDialog from "@/components/general/dialog/ConfirmDialog";
+import React, {useEffect, useState} from 'react';
+import MyTableTemplate from "@/components/template/MyTableTemplate";
+import {DataApiClient} from "@/models/DataApiClient"
 
 const ProductPage: React.FC = () => {
+    const apiClient = new DataApiClient('product');
+    const [list, setList] = useState([]);
 
-    const [isOpenDetails, setIsOpenDetails] = useState(false);
-
+    const getList = () => {
+        apiClient.getList()
+            .then((createdData) => {
+                console.log('Resource created:', createdData);
+                if (createdData.status === 200) {
+                    setList(createdData.data);
+                } else {
+                    console.log(createdData.status)
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
     const insertHandle = () => {
         console.log("insert click")
     }
-    const deleteHandle = () => {
-        console.log("delete click")
-    }
+
     const detailsHandle = (data: Object, type: string) => {
         console.log("details click")
-        setIsOpenDetails(true);
-    }
-    const modalClose = () => {
-        setIsOpenDetails(false);
     }
 
     const temp = [
@@ -47,29 +50,18 @@ const ProductPage: React.FC = () => {
         }
     ]
 
+    useEffect(() => {
+        getList();
+    }, [])
+
     return (
         <>
-            <div className={" px-x-body py-y-body"}>
-                <div className={"header flex gap-5 items-center"}>
-                    <div className={"text-title-lg"}>Product page</div>
-                    <div className={"h-[80%]"}>
-                        <MyButton label={""}
-                                  width={"w-[70%]"}
-                                  borderRadius={"rounded-[100%]"}
-                                  surfix={<Plus size={20} color="#ffffff" weight="fill"/>}
-                                  onTap={insertHandle}/>
-                    </div>
-                </div>
-                <div className={"body"}>
-                    <MyTable list={temp}
-                             deleteCallback={deleteHandle}
-                             callback={detailsHandle}/>
-                </div>
-
-            </div>
-            <ConfirmDialog isOpen={isOpenDetails}
-                           onClose={modalClose}
-                           model={{}}/>
+            <MyTableTemplate
+                insertHandle={insertHandle}
+                detailsHandle={detailsHandle}
+                headerTitle={"Product List"}
+                list={list}
+            />
         </>
     );
 }

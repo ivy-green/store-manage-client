@@ -36,12 +36,12 @@ export const MyTableRow = ({
     const tableData = useSelector(tableSelector);
 
     let className = isHeader
-        ? `my_table_row table_header flex`
-        : `my_table_row flex`;
+        ? `my_table_row table_header flex h-[auto]`
+        : `my_table_row flex h-[auto]`;
 
     let checkBoxClassName = showCheckBox
-        ? `my_table_cell flex-none checkbox`
-        : `my_table_cell flex-none checkbox d-none`
+        ? ``
+        : `d-none`
 
     const findLengthElement = () => {
         let len = Object.values(data).length;
@@ -51,11 +51,6 @@ export const MyTableRow = ({
         if (!isHeader) len++;
         return len;
     }
-
-    let rowStyle = {
-        // height: rowHeight,
-        height: "auto",
-    };
 
 
     const handleActionButtons = async (data: Object, type: string) => {
@@ -80,10 +75,11 @@ export const MyTableRow = ({
     };
 
     return (
-        <div style={rowStyle} className={className}>
-            <div className={checkBoxClassName + " me-[10px]"}>
-                <div className="checkbox-circle2">
+        <div className={className}>
+            <div className={checkBoxClassName + " relative w-[40px] flex-none checkbox"}>
+                <div className="checkbox-circle2 w-full h-full flex items-center border-b-[1px]">
                     <input
+                        className={"mx-[auto]"}
                         type="checkbox"
                         id="checkbox-circle2"
                         name="check"
@@ -126,10 +122,10 @@ export const MyTableRow = ({
                 !isHeader ? <MyTableCell
                     center={true}
                     data={
-                        <div>
+                        <div className={'px-[0.55em]'}>
                             <MyButton
                                 label={""}
-                                surfix={<Pencil size={14} color="#ffffff" weight="fill"/>}
+                                surfix={<Pencil size={12} color="#ffffff" weight="fill"/>}
                                 borderRadius="rounded-[10px]"
                                 onTap={() => handleActionButtons(data, "details")}
                             />

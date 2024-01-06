@@ -19,7 +19,7 @@ export const MyTableCell = ({
                             }: cellArgs) => {
     return (
         <div
-            className={`my_table_cell border-e-[1px] col${width} `
+            className={`py-3 px-4 border-s-[1px] border-b-[1px] col${width} bg-[transparent]`
                 + (center ? " text-center " : "")
                 + (flexNone ? " flex-none " : "")}
         >

@@ -31,12 +31,12 @@ export default function MyDialog({
                     <div className={"font-medium text-2xl"}>
                         {title}
                     </div>
-                    <MyButton
-                        onTap={onClose}
-                        bgColor={"bg-[transparent]"}
-                        pdX={"px-0"}
-                        pdY={"py-0"}
-                        surfix={<XCircle size={32} color="#3d3d3d" weight="fill"/>} label={""}/>
+                    {/*<MyButton*/}
+                    {/*    onTap={onClose}*/}
+                    {/*    bgColor={"bg-[transparent]"}*/}
+                    {/*    pdX={"px-0"}*/}
+                    {/*    pdY={"py-0"}*/}
+                    {/*    surfix={<XCircle size={32} color="#3d3d3d" weight="fill"/>} label={""}/>*/}
                 </div>
                 <div className={"text-center"}>{content}</div>
                 {actions}
