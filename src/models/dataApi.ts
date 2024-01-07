@@ -1,7 +1,7 @@
 import axios, {AxiosResponse} from "axios";
 import {BASE_URL} from "@/constraint";
 
-export class DataApiClient {
+export class DataApi {
     constructor(public url: string) {
         this.url = BASE_URL + url;
     }

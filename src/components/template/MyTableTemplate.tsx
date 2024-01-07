@@ -5,8 +5,10 @@ import MyButton from "@/components/general/MyButton";
 import {Plus} from "phosphor-react";
 import {MyTable} from "@/components/general/table/MyTable";
 import ConfirmDialog from "@/components/general/dialog/ConfirmDialog";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {string} from "prop-types";
+import {ProductModel} from "@/models/product/product";
+import {ModelTemplate} from "@/components/template/modelTemplate";
 
 interface MyTablePageProps {
     isInsert?: boolean;
@@ -18,19 +20,19 @@ interface MyTablePageProps {
 }
 
 interface objectData {
-    id: string; // Assuming the id can be either string or number
+    id: string;
     [key: string]: any;
 }
 
 export default function MyTableTemplate({
-                                        isInsert = true,
-                                        insertHandle = () => {
-                                        },
-                                        detailsHandle = (data: Object, type: string) => {
-                                        },
-                                        list,
-                                        headerTitle
-                                    }: MyTablePageProps) {
+                                            isInsert = true,
+                                            insertHandle = () => {
+                                            },
+                                            detailsHandle = (data: Object, type: string) => {
+                                            },
+                                            list,
+                                            headerTitle
+                                        }: MyTablePageProps) {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const deleteHandle = () => {
         console.log("delete click")

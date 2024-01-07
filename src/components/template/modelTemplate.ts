@@ -1,4 +1,6 @@
-abstract class ModelTemplate {
+import {ModelViewTemplate} from "@/components/template/modelViewTemplate";
+
+export abstract class ModelTemplate {
     constructor(public id: string) {
     }
 

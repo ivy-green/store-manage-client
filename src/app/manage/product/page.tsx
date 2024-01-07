@@ -1,20 +1,24 @@
 'use client'
 import React, {useEffect, useState} from 'react';
 import MyTableTemplate from "@/components/template/MyTableTemplate";
-import {DataApiClient} from "@/models/DataApiClient"
+import {DataApi} from "@/models/dataApi"
+import {Product, ProductModel} from "@/models/product/product";
+
 
 const ProductPage: React.FC = () => {
-    const apiClient = new DataApiClient('product');
+    const apiClient = new DataApi('product');
     const [list, setList] = useState([]);
 
     const getList = () => {
         apiClient.getList()
-            .then((createdData) => {
-                console.log('Resource created:', createdData);
-                if (createdData.status === 200) {
-                    setList(createdData.data);
+            .then((result) => {
+                if (result.status === 200) {
+                    console.log('Resource created:', result.data);
+                    const productList = result.data.map((item: Product) => new ProductModel(item.id, item.code, item.name, item.cost, item.price, item.created).getAllField());
+                    console.log(productList)
+                    setList(productList);
                 } else {
-                    console.log(createdData.status)
+                    console.log(result.status)
                 }
             })
             .catch((error) => {

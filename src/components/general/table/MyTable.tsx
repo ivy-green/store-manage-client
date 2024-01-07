@@ -3,6 +3,7 @@ import "./MyTable.css";
 import {MyTableRow} from "./MyTableRow";
 import {Toolkit} from "@/components/general/toolkit/Toolkit";
 import {string} from "prop-types";
+import {ModelTemplate} from "@/components/template/modelTemplate";
 
 
 interface objectData {
@@ -11,7 +12,7 @@ interface objectData {
 }
 
 interface MyTableProps {
-    list: objectData[];
+    list: any[];
     headerAction?: React.ReactNode | string;
     showCheckBox?: boolean;
     select?: [];
@@ -39,8 +40,8 @@ export const MyTable = ({
                             isDeleteRow = false,
                             searchCallback,
                         }: MyTableProps) => {
-    const headers = list.length > 0 ? Object.keys(list[0]) : [];
-    !hideDetails && headers.push("Thao tác");
+    const headers = list.length > 0 ? list[0].map((e: any) => e.name) : [];
+    !hideDetails && headers.push("Actions");
 
     const handleActionButtons = (data: Object, type: string) => {
         console.log(data);

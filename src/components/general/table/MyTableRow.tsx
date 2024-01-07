@@ -6,14 +6,11 @@ import tableSlice from "@/features/table/tableSlice";
 import {tableSelector} from "@/selectors/consumerSelector";
 import MyButton from "@/components/general/MyButton";
 import {Pencil} from "phosphor-react";
+import {Field} from "@/components/template/field";
 
 interface MyTableRowProps {
     data:
-        | {
-        id: string; // Assuming the id can be either string or number
-        [key: string]: any;
-    }
-        | string[];
+        any[];
     isHeader?: boolean;
     showCheckBox: boolean;
     callback?: (data: Object, type: string) => void;
@@ -44,7 +41,8 @@ export const MyTableRow = ({
         : `d-none`
 
     const findLengthElement = () => {
-        let len = Object.values(data).length;
+        // let len = Object.values(data).length;
+        let len = data.length;
         if (ignoreID) len--;
         if (!hideDetails) len++;
         if (showCheckBox) len++;
@@ -59,20 +57,20 @@ export const MyTableRow = ({
     };
 
     //handle select each row
-    const handleSelect = async (e: boolean) => {
-        if (!Array.isArray(data)) {
-            let list = [...tableData.selectList];
-            let ids = list.map((ele) => ele.id);
-            if (e) list.push(data);
-            else {
-                console.log(ids);
-                let index = ids.indexOf(data.id);
-                list.splice(index, 1);
-            }
-            console.log(list);
-            dispatch(tableSlice.actions.handleSelected(list));
-        }
-    };
+    // const handleSelect = async (e: boolean) => {
+    //     if (!Array.isArray(data)) {
+    //         let list = [...tableData.selectList];
+    //         let ids = list.map((ele) => ele.id);
+    //         if (e) list.push(data);
+    //         else {
+    //             console.log(ids);
+    //             let index = ids.indexOf(data.id);
+    //             list.splice(index, 1);
+    //         }
+    //         console.log(list);
+    //         dispatch(tableSlice.actions.handleSelected(list));
+    //     }
+    // };
 
     return (
         <div className={className}>
@@ -83,16 +81,19 @@ export const MyTableRow = ({
                         type="checkbox"
                         id="checkbox-circle2"
                         name="check"
-                        onChange={(e) => handleSelect(e.target.checked)}
+                        // onChange={(e) => handleSelect(e.target.checked)}
                     />
                 </div>
             </div>
             <div className={`flex-1 grid `} style={{
                 gridTemplateColumns: (!hideDetails && isHeader) ?
-                    `repeat(${Object.values(data).length - 2}, minmax(0, 1fr))` :
-                    `repeat(${Object.values(data).length - 1}, minmax(0, 1fr))`
+                    `repeat(${(data).length - 1}, minmax(0, 1fr))` :
+                    `repeat(${(data).length}, minmax(0, 1fr))`
+                // `repeat(${Object.values(data).length - 2}, minmax(0, 1fr))` :
+                // `repeat(${Object.values(data).length - 1}, minmax(0, 1fr))`
             }}>
-                {Object.values(data).map((e, index) => {
+                {/*{Object.values(data).map((e, index) => {*/}
+                {data && data.map((e, index) => {
                     if ((((ignoreID && index !== 0) || !ignoreID)
                         && !(!hideDetails && isHeader && index == Object.values(data).length - 1))
                     ) {
@@ -100,7 +101,7 @@ export const MyTableRow = ({
                             return (
                                 <MyTableCell
                                     key={index}
-                                    data={e}
+                                    data={e.value ? e.value : e}
                                     width={`-1`}
                                     center={cellContentCenter}
                                 />
@@ -108,7 +109,7 @@ export const MyTableRow = ({
                         return (
                             <MyTableCell
                                 key={index}
-                                data={e}
+                                data={e.value ? e.value : e}
                                 width={``}
                                 center={cellContentCenter}
                             />
@@ -121,6 +122,7 @@ export const MyTableRow = ({
             {!hideDetails && (
                 !isHeader ? <MyTableCell
                     center={true}
+                    width={`w-[90px]`}
                     data={
                         <div className={'px-[0.55em]'}>
                             <MyButton
@@ -131,10 +133,10 @@ export const MyTableRow = ({
                             />
                         </div>
                     }
-                    width={``}
                 /> : <MyTableCell
-                    data={Object.values(data)[Object.values(data).length - 1]}
-                    width={``}
+                    // data={Object.values(data)[Object.values(data).length - 1]}
+                    data={data[data.length - 1]}
+                    width={`w-[90px]`}
                     flexNone={true}
                     center={true}
                 />
