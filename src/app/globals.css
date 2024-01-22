@@ -11,7 +11,8 @@
     --bg-warning: #ffae15;
     --bg-success: #00b954;
 
-    --clr-grey: rgba(227, 227, 227, 0.3);
+    --clr-grey-fade: rgba(227, 227, 227, 0.3);
+    --clr-grey: rgb(230, 230, 230);
     --clr-primary: #0273b9;
 
     --fs-xxl: "58px";

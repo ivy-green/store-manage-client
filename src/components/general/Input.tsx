@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler} from "react";
+import React, {ChangeEventHandler, useState} from "react";
 
 //css
 import MyButton from "@/components/general/MyButton";
@@ -14,7 +14,7 @@ interface InputProps {
     icon?: string | React.ReactNode | null;
     value: string;
     className?: string;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    onChange: (input: string) => void;
     setDisabled?: boolean;
 }
 
@@ -29,10 +29,10 @@ export function Input({
                           icon,
                           value = "",
                           className = "",
-                          onChange = function (v) {
-                          },
+                          onChange,
                           setDisabled = false,
                       }: InputProps) {
+    const [text, setText] = useState(value);
     let style = {
         width: width,
         borderRadius: "10px",
@@ -40,18 +40,20 @@ export function Input({
     let inputStyle = {
         width: width,
         height: height,
-        border: isBorder ? "solid 1px #d3d3d3" : "",
-        borderRadius: "10px",
+        // border: isBorder ? "solid 1px #d3d3d3" : "",
+        // borderRadius: "10px",
         boxShadow: boxShadow,
     };
 
     return (
         <div
-            className={"input_container flex-direction-column bg-white " + className}
+            className={`input_container flex-direction-column bg-white ` + className}
             style={style}
         >
             {label && <label className="text_dark text_gray">{label}</label>}
-            <div className="flex input_content m-0" style={inputStyle}>
+            <div
+                className={`flex input_content m-0 border-2 rounded-[5px] ${setDisabled ? 'bg-grey' : 'bg-white'}`}
+                style={inputStyle}>
                 {icon && (
                     <MyButton
                         label=""
@@ -63,12 +65,15 @@ export function Input({
                     />
                 )}
                 <input
-                    className="text_dark w-[100%] focus:outline-none rounded-[10px]"
+                    className="text_dark w-[100%] ms-3 focus:outline-none rounded-[10px] bg-[transparent]"
                     placeholder={placeholder}
-                    value={value}
+                    value={text}
                     type={type}
                     defaultValue={value}
-                    onChange={onChange}
+                    onChange={(e) => {
+                        setText(e.target.value);
+                        onChange(e.target.value)
+                    }}
                     disabled={setDisabled}
                 />
             </div>

@@ -17,7 +17,8 @@ const config: Config = {
                 'error': "var(--bg-error)",
                 'warning': "var(--bg-warning)",
                 'success': "var(--bg-success)",
-                'grey-fade': "var(--clr-grey)"
+                'grey-fade': "var(--clr-grey-fade)",
+                'grey': "var(--clr-grey)",
             },
             fontSize: {
                 'title-lg': '32px'

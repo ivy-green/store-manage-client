@@ -10,6 +10,8 @@ import {Input} from "@/components/general/Input";
 import tableSlice from "@/features/table/tableSlice";
 import MyButton from "@/components/general/MyButton";
 import {tableSelector} from "@/selectors/consumerSelector";
+import {Modal} from "reactstrap";
+import MyDropdown from "@/components/general/dropdown/MyDropdown";
 
 interface toolkitArgs {
     borderRadius?: string;
@@ -30,6 +32,7 @@ export const Toolkit = ({
 
     const tableData = useSelector(tableSelector);
     const [selectCount, setSelectCount] = useState(tableData.selectList.length);
+    const [isOpenFilter, setIsOpenFilter] = useState(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -48,16 +51,11 @@ export const Toolkit = ({
                     isBorder={true}
                     height="45px"
                     width="100%"
-                    onChange={(v) => dispatch(tableSlice.actions.handleSearch(v.target))}
+                    onChange={(v) => dispatch(tableSlice.actions.handleSearch(v))}
                     icon={<Icon.MagnifyingGlass size={16}/>}
                 />
             </div>
-            <Button
-                label="Filter"
-                surfix={<Icon.Faders size={16}/>}
-                onClick={() => {
-                }}
-            />
+            <MyDropdown/>
             {!hideDelete && (
                 <div className="w-100 flex items-center justify-around">
                     <div className="flex items-center">

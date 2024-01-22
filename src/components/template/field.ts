@@ -5,7 +5,7 @@ export class Field {
     constructor(public field: string,
                 public name: string,
                 public value: any,
-                isEdit?: boolean,
+                isEdit: boolean = true,
                 isNumber?: boolean,
     ) {
         this.field = field;

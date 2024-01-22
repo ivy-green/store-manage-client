@@ -14,6 +14,7 @@ interface buttonArgs {
     pdY?: string;
     height?: string;
     width?: string;
+    extendProps?: {};
 }
 
 export default function MyButton({
@@ -29,12 +30,14 @@ export default function MyButton({
                                      pdX = "px-4",
                                      pdY = "py-2",
                                      height = "h-auto",
-                                     width = "w-auto"
+                                     width = "w-auto",
+                                     extendProps = ""
                                  }:
                                      buttonArgs
 ) {
     return (
         <button
+            {...extendProps}
             className={`flex justify-around items-center 
             ${isBold ? "font-bold" : ""} 
             ${bgColor} ${fontColor} ${borderRadius} ${height} ${width} ${pdX} ${pdY}`}

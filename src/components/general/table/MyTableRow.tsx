@@ -1,4 +1,6 @@
-import React, {useEffect} from "react";
+'use client'
+
+import React, {useEffect, useState} from "react";
 import "./MyTable.css";
 import {MyTableCell} from "./MyTableCell";
 import {useDispatch, useSelector} from "react-redux";
@@ -7,16 +9,19 @@ import {tableSelector} from "@/selectors/consumerSelector";
 import MyButton from "@/components/general/MyButton";
 import {Pencil} from "phosphor-react";
 import {Field} from "@/components/template/field";
+import {ModelTemplate} from "@/components/template/modelTemplate";
+import {ModelViewTemplate} from "@/components/template/modelViewTemplate";
 
 interface MyTableRowProps {
     data:
-        any[];
+        ModelTemplate | string[];
     isHeader?: boolean;
     showCheckBox: boolean;
-    callback?: (data: Object, type: string) => void;
+    callback?: (data: ModelTemplate, type: string) => void;
     hideDetails?: boolean;
     cellContentCenter?: boolean;
     ignoreID: boolean;
+    filterValue?: string;
 }
 
 export const MyTableRow = ({
@@ -28,9 +33,11 @@ export const MyTableRow = ({
                                hideDetails = false,
                                cellContentCenter = false,
                                ignoreID = false,
+                               filterValue
                            }: MyTableRowProps) => {
     const dispatch = useDispatch();
     const tableData = useSelector(tableSelector);
+    const [tableList, setTableList] = useState(Array.isArray(data) ? data : data.getAllField());
 
     let className = isHeader
         ? `my_table_row table_header flex h-[auto]`
@@ -40,37 +47,27 @@ export const MyTableRow = ({
         ? ``
         : `d-none`
 
-    const findLengthElement = () => {
-        // let len = Object.values(data).length;
-        let len = data.length;
-        if (ignoreID) len--;
-        if (!hideDetails) len++;
-        if (showCheckBox) len++;
-        if (!isHeader) len++;
-        return len;
-    }
-
-
-    const handleActionButtons = async (data: Object, type: string) => {
-        dispatch(tableSlice.actions.detailButton(data));
-        await callback(data, type);
+    const handleActionButtons = async (data: ModelTemplate | string[], type: string) => {
+        // dispatch(tableSlice.actions.detailButton(data));
+        if (!Array.isArray(data)) {
+            await callback(data, type);
+        }
     };
 
-    //handle select each row
-    // const handleSelect = async (e: boolean) => {
-    //     if (!Array.isArray(data)) {
-    //         let list = [...tableData.selectList];
-    //         let ids = list.map((ele) => ele.id);
-    //         if (e) list.push(data);
-    //         else {
-    //             console.log(ids);
-    //             let index = ids.indexOf(data.id);
-    //             list.splice(index, 1);
-    //         }
-    //         console.log(list);
-    //         dispatch(tableSlice.actions.handleSelected(list));
-    //     }
-    // };
+    const handleSelect = async (e: boolean) => {
+        if (!Array.isArray(data)) {
+            let list = [...tableData.selectList];
+            let ids = list.map((ele) => ele.id);
+            if (e) list.push(data); //push model
+            else {
+                console.log(ids);
+                let index = ids.indexOf(tableList[0].value); // index of code
+                list.splice(index, 1);
+            }
+            console.log(list);
+            dispatch(tableSlice.actions.handleSelected(list));
+        }
+    };
 
     return (
         <div className={className}>
@@ -81,19 +78,19 @@ export const MyTableRow = ({
                         type="checkbox"
                         id="checkbox-circle2"
                         name="check"
-                        // onChange={(e) => handleSelect(e.target.checked)}
+                        onChange={(e) => handleSelect(e.target.checked)}
                     />
                 </div>
             </div>
             <div className={`flex-1 grid `} style={{
                 gridTemplateColumns: (!hideDetails && isHeader) ?
-                    `repeat(${(data).length - 1}, minmax(0, 1fr))` :
-                    `repeat(${(data).length}, minmax(0, 1fr))`
+                    `repeat(${(tableList).length - 1}, minmax(0, 1fr))` :
+                    `repeat(${(tableList).length}, minmax(0, 1fr))`
                 // `repeat(${Object.values(data).length - 2}, minmax(0, 1fr))` :
                 // `repeat(${Object.values(data).length - 1}, minmax(0, 1fr))`
             }}>
                 {/*{Object.values(data).map((e, index) => {*/}
-                {data && data.map((e, index) => {
+                {tableList && tableList.map((e, index) => {
                     if ((((ignoreID && index !== 0) || !ignoreID)
                         && !(!hideDetails && isHeader && index == Object.values(data).length - 1))
                     ) {
@@ -135,7 +132,7 @@ export const MyTableRow = ({
                     }
                 /> : <MyTableCell
                     // data={Object.values(data)[Object.values(data).length - 1]}
-                    data={data[data.length - 1]}
+                    data={"Actions"}
                     width={`w-[90px]`}
                     flexNone={true}
                     center={true}

@@ -1,9 +1,5 @@
-import {ProductView} from "@/models/product/productView";
 import {ModelTemplate} from "@/components/template/modelTemplate";
 import {Field} from "@/components/template/field";
-import {applyMixins} from "@/constraint";
-import {id} from "postcss-selector-parser";
-import code from "phosphor-react/src/icons/Code";
 
 export interface Product {
     id: string;
@@ -14,46 +10,55 @@ export interface Product {
     created: string;
 }
 
-export class ProductModel implements ModelTemplate, ProductView {
+export class ProductModel implements ModelTemplate {
     codeField: Field;
     nameField: Field;
     costField: Field;
     priceField: Field;
     tableData: Field[];
 
-    constructor(public id: string,
-                public code: string,
-                public name: string,
-                public cost: number,
-                public price: number,
-                public created: string,
+    constructor();
+    constructor(id: string,
+                code: string,
+                name: string,
+                cost: number,
+                price: number,
+                created: string,
+    );
+    constructor(public id?: string,
+                public code?: string,
+                public name?: string,
+                public cost?: number,
+                public price?: number,
+                public created?: string,
     ) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.cost = cost;
-        this.price = price;
-        this.created = created;
+        this.id = id ?? "";
+        this.code = code ?? "";
+        this.name = name ?? "";
+        this.cost = cost ?? 0;
+        this.price = price ?? 0;
+        this.created = created ?? "";
 
         this.codeField = new Field(
             "code",
             "Product Code",
-            code
+            code ?? "",
+            false
         );
         this.nameField = new Field(
             "name",
             "Name",
-            name
+            name ?? "",
         );
         this.costField = new Field(
             "cost",
             "Cost",
-            cost
+            cost ?? ""
         );
         this.priceField = new Field(
             "price",
             "Price",
-            price
+            price ?? ""
         );
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.priceField];
@@ -64,7 +69,7 @@ export class ProductModel implements ModelTemplate, ProductView {
     }
 
     getModelName(): string {
-        return this.name;
+        return "Product";
     }
 
     insert(): boolean {
@@ -80,10 +85,10 @@ export class ProductModel implements ModelTemplate, ProductView {
     }
 
     getCreatedField(): any[] {
-        return [this.codeField, this.nameField, this.costField, this.priceField];
+        return [this.nameField, this.costField, this.priceField];
     }
 
 }
 
-applyMixins(ProductModel, [ModelTemplate, ProductView]);
+// applyMixins(ProductModel, [ModelTemplate, ProductView]);
 

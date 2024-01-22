@@ -1,6 +1,7 @@
 import React, {ReactNode, useEffect} from "react";
 import "./MyTable.css";
 import {useDispatch} from "react-redux";
+import {Field} from "@/components/template/field";
 
 interface cellArgs {
     data: String | ReactNode;

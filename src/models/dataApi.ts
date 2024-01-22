@@ -22,6 +22,22 @@ export class DataApi {
             });
     }
 
+    delete(code: string): Promise<any> {
+        const apiUrl = `${this.url}/delete/${code}`;
+
+        // Use Axios to make the API call
+        return axios.put(apiUrl)
+            .then((response: AxiosResponse) => {
+                // Handle the successful response
+                return response;
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error('Error deleting resource:', error);
+                throw error; // Rethrow the error if needed
+            });
+    }
+
     getList(): Promise<any> {
         const apiUrl = `${this.url}`;
 
@@ -33,7 +49,7 @@ export class DataApi {
             })
             .catch((error) => {
                 // Handle errors
-                console.error('Error creating resource:', error);
+                console.error('Error get list resource:', error);
                 throw error; // Rethrow the error if needed
             });
     }
