@@ -40,8 +40,21 @@ export class UtilityService implements ServiceTemplate {
         return Promise.resolve([]);
     }
 
-    update(data: ModelTemplate): Promise<boolean> {
-        return Promise.resolve(false);
+    update: (data: Object) => Promise<boolean> = (data) => {
+        console.log(data)
+        return this.apiClient.update(data)
+            .then((result) => {
+                if (result.status === 200) {
+                    return true;
+                } else {
+                    console.log(result.status)
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.error('Utility Service - Error:', error);
+                return false;
+            })
     }
 
 }

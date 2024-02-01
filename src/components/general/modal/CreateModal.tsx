@@ -3,7 +3,7 @@ import {Input} from "@/components/general/Input";
 import {Field} from "@/components/template/field";
 import MyButton from "@/components/general/MyButton";
 import {Modal} from "reactstrap";
-import React from "react";
+import React, {useState} from "react";
 import {ModelTemplate} from "@/components/template/modelTemplate";
 import {string} from "prop-types";
 import toast from "react-hot-toast";
@@ -26,6 +26,8 @@ export default function CreateModal({
                                         data,
                                         isCreate = false
                                     }: createModelProps) {
+
+    const [formValue, setFormValue] = useState({});
     const insertHandle = async () => {
         const data: { [key: string]: string } = model.getCreatedField().reduce((result, obj) => {
             result[obj.field] = obj.value;
@@ -38,6 +40,20 @@ export default function CreateModal({
             closeInsert(false);
         } else {
             toast.error(`Create ${model.getModelName()} failed`);
+        }
+    }
+    const updateHandle = async () => {
+        const dataUpdate: { [key: string]: string } = data?.getAllField().reduce((result, obj) => {
+            result[obj.field] = obj.value;
+            return result;
+        }, {});
+
+        let res = await service.update(dataUpdate);
+        if (res) {
+            toast.success(`Update ${data?.getModelName()} successfully`);
+            closeInsert(false);
+        } else {
+            toast.error(`Update ${data?.getModelName()} failed`);
         }
     }
 
@@ -62,18 +78,24 @@ export default function CreateModal({
                                     key={index}
                                     label={(item as Field).name}
                                     value={(item as Field).value}
-                                    onChange={(input) => (item as Field).initData(input)}/>
+                                    onChange={(input) => {
+                                        console.log(input as string);
+                                        (item as Field).initData(input)
+                                    }}/>
                             ) : data?.getAllField().map((item, index) =>
                                 <Input
                                     key={index}
                                     label={(item as Field).name}
                                     value={(item as Field).value}
                                     setDisabled={!((item as Field).isEdit)}
-                                    onChange={(input) => (item as Field).initData(input)}/>
+                                    onChange={(input) => {
+                                        (item as Field).initData(input)
+                                        console.log((item as Field).value)
+                                    }}/>
                             )
                         }
                     </div>
-                    <MyButton label={"Submit"} onTap={insertHandle}/>
+                    <MyButton label={"Submit"} onTap={isCreate ? insertHandle : updateHandle}/>
                 </div>
             </div>
         </div>

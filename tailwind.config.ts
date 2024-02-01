@@ -21,7 +21,8 @@ const config: Config = {
                 'grey': "var(--clr-grey)",
             },
             fontSize: {
-                'title-lg': '32px'
+                'title-lg': '32px',
+                'normal': "var(--fs-m)",
             },
             textColor: {
                 'default': '#3d3d3d',

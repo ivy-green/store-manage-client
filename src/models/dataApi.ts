@@ -22,6 +22,22 @@ export class DataApi {
             });
     }
 
+    update(data: any): Promise<any> {
+        const apiUrl = `${this.url}`;
+
+        // Use Axios to make the API call
+        return axios.put(apiUrl, data)
+            .then((response: AxiosResponse) => {
+                // Handle the successful response
+                return response;
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error('Error creating resource:', error);
+                throw error; // Rethrow the error if needed
+            });
+    }
+
     delete(code: string): Promise<any> {
         const apiUrl = `${this.url}/delete/${code}`;
 

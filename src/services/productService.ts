@@ -1,5 +1,4 @@
 import {DataApi} from "@/models/dataApi";
-import {Product, ProductModel} from "@/models/product/product";
 import {ServiceTemplate} from "@/components/template/serviceTemplate";
 import {ModelTemplate} from "@/components/template/modelTemplate";
 
@@ -41,7 +40,7 @@ export class ProductService implements ServiceTemplate {
         return Promise.resolve([]);
     }
 
-    update(data: ModelTemplate): Promise<boolean> {
+    update(data: Object): Promise<boolean> {
         return Promise.resolve(false);
     }
 

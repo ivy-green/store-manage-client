@@ -91,7 +91,7 @@ export default function MyTableTemplate({
 
     useEffect(() => {
         getList();
-    }, [isLoading, isOpenModel])
+    }, [isLoading, isOpenModel, isOpenDelete, list])
 
     return <>
         <div className={" px-x-body py-y-body"}>

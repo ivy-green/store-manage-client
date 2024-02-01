@@ -67,9 +67,9 @@ export function Input({
                 <input
                     className="text_dark w-[100%] ms-3 focus:outline-none rounded-[10px] bg-[transparent]"
                     placeholder={placeholder}
-                    value={text}
+                    value={value ?? text}
                     type={type}
-                    defaultValue={value}
+                    // defaultValue={value}
                     onChange={(e) => {
                         setText(e.target.value);
                         onChange(e.target.value)
