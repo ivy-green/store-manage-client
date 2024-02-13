@@ -12,7 +12,6 @@ import {Utility, UtilityModel} from "@/models/utility/utility";
 
 const UtilityPage: React.FC = () => {
     const apiClient = new DataApi('utility');
-    const tableData = useSelector(tableSelector);
     const utilityService = new UtilityService();
     const utility = new UtilityModel();
     const [list, setList] = useState([]);

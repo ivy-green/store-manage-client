@@ -42,23 +42,23 @@ export class ProductModel implements ModelTemplate {
         this.codeField = new Field(
             "code",
             "Product Code",
-            code ?? "",
+            code,
             false
         );
         this.nameField = new Field(
             "name",
             "Name",
-            name ?? "",
+            name,
         );
         this.costField = new Field(
             "cost",
             "Cost",
-            cost ?? ""
+            cost
         );
         this.priceField = new Field(
             "price",
             "Price",
-            price ?? ""
+            price
         );
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.priceField];

@@ -27,7 +27,6 @@ export default function CreateModal({
                                         isCreate = false
                                     }: createModelProps) {
 
-    const [formValue, setFormValue] = useState({});
     const insertHandle = async () => {
         const data: { [key: string]: string } = model.getCreatedField().reduce((result, obj) => {
             result[obj.field] = obj.value;
@@ -63,7 +62,7 @@ export default function CreateModal({
         <div
             className={"backdrop-brightness-50 w-[100vw] h-[100vh] fixed top-0 flex items-center"}>
             <div className={"bg-white w-[70vw] h-[100%] ms-[auto] rounded-s-[5px] px-6 py-5"}>
-                <button onClick={() => closeInsert(false)}>
+                <button className={"mb-3"} onClick={() => closeInsert(false)}>
                     close
                 </button>
                 <div className={"font-medium text-2xl"}>

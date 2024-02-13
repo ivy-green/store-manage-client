@@ -70,4 +70,20 @@ export class DataApi {
             });
     }
 
+    getListByGroup(code: string): Promise<any> {
+        const apiUrl = `${this.url}/${code}`;
+
+        // Use Axios to make the API call
+        return axios.get(apiUrl)
+            .then((response: AxiosResponse) => {
+                // Handle the successful response
+                return response;
+            })
+            .catch((error) => {
+                // Handle errors
+                console.error('Error get list by group resource:', error);
+                throw error; // Rethrow the error if needed
+            });
+    }
+
 }

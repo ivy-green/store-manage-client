@@ -26,6 +26,7 @@ const config: Config = {
             },
             textColor: {
                 'default': '#3d3d3d',
+                'success': 'var(--bg-success)',
             },
             padding: {
                 'y-body': '20px',

@@ -9,8 +9,8 @@ export class Field {
                 isNumber?: boolean,
     ) {
         this.field = field;
-        this.name = name;
-        this.value = value;
+        this.name = name ?? "";
+        this.value = value ?? " ";
         this.isEdit = isEdit ?? true;
         this.isNumber = isNumber ?? false;
     }

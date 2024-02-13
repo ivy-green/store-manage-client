@@ -47,7 +47,7 @@ export default function MyTableTemplate({
                                         }: MyTablePageProps) {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [isOpenModel, setIsOpenModal] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [isCreate, setIsCreate] = useState(true);
     const [detailData, setDetailData] = useState<ModelTemplate>();
     const tableData = useSelector(tableSelector);
@@ -90,7 +90,10 @@ export default function MyTableTemplate({
     }
 
     useEffect(() => {
-        getList();
+        if (isLoading) {
+            getList();
+            setIsLoading(false)
+        }
     }, [isLoading, isOpenModel, isOpenDelete, list])
 
     return <>

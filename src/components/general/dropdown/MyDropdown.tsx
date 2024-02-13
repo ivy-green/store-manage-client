@@ -1,8 +1,15 @@
 import React from "react";
 import {Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button} from "@nextui-org/react";
-import MyButton from "@/components/general/MyButton";
 
-export default function MyDropdown() {
+interface MyDropdownProps {
+    width?: string;
+    height?: string;
+}
+
+export default function MyDropdown({
+                                       width = "w-[10vw]",
+                                       height = "h-full"
+                                   }: MyDropdownProps) {
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(["name a-z"]));
 
     const selectedValue = React.useMemo(
@@ -10,10 +17,10 @@ export default function MyDropdown() {
         [selectedKeys]
     );
 
-    const childClass = "py-1.5 px-5 mb-2 rounded-[10px]";
+    const childClass = "py-1.5 px-5 mb-2 rounded-[5px]";
 
     return (
-        <div className={"w-[10vw]"}>
+        <div className={width + " " + height}>
             <Dropdown>
                 <DropdownTrigger>
                     <Button
