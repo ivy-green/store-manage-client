@@ -7,9 +7,6 @@ import {ProductService} from "@/services/productService";
 import {useSelector} from "react-redux";
 import {tableSelector} from "@/selectors/consumerSelector";
 import {Group, GroupModel} from "@/models/group";
-import MyButton from "@/components/general/MyButton";
-import {Plus} from "phosphor-react";
-import {ModelTemplate} from "@/components/template/modelTemplate";
 import GroupPage from "@/app/manage/product/group_page";
 
 
@@ -20,6 +17,7 @@ const ProductPage: React.FC = () => {
     const productService = new ProductService();
     const product = new ProductModel();
     const [list, setList] = useState([]);
+    const [displayList, setDisplayList] = useState([]);
     const [groupList, setGroupList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [option, setOption] = useState("");
@@ -30,28 +28,10 @@ const ProductPage: React.FC = () => {
             .then((result) => {
                 if (result.status === 200) {
                     setList([]);
-                    const productList = result.data.map((item: Product) => new ProductModel(item.id, item.code, item.name, item.cost, item.price, item.created));
+                    const productList = result.data.map((item: Product) => new ProductModel(
+                        item.id, item.code, item.name, item.cost, item.price, item.created, item.group_code));
                     setList(productList);
-                } else {
-                    console.log(result.status)
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }
-
-    const getListByGroup = () => {
-        setIsLoading(true)
-        apiClient.getListByGroup(option)
-            .then((result) => {
-                if (result.status === 200) {
-                    setList([]);
-                    const productList = result.data.map((item: Product) => new ProductModel(item.id, item.code, item.name, item.cost, item.price, item.created));
-                    setList(productList);
+                    setDisplayList(productList);
                 } else {
                     console.log(result.status)
                 }
@@ -90,9 +70,10 @@ const ProductPage: React.FC = () => {
 
     const getListByOption = () => {
         if (option != "") {
-            getListByGroup()
+            let filteredList = list.filter((item: ProductModel) => item.group_code == option)
+            setDisplayList(filteredList)
         } else {
-            getList()
+            setDisplayList(list)
         }
     }
 
@@ -110,9 +91,9 @@ const ProductPage: React.FC = () => {
                 <MyTableTemplate
                     headerTitle={"Product List"}
                     service={productService}
-                    getList={getList}
+                    getList={getListByOption}
                     model={product}
-                    list={list}
+                    list={displayList}
                 />
             </div>
         </div>

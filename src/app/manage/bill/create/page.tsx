@@ -1,21 +1,69 @@
 'use client'
 import React, {useEffect, useState} from "react";
 import {productDemo} from "@/constraint";
-import {Check, MagnifyingGlass} from "phosphor-react";
+import {Check, MagnifyingGlass, Trash} from "phosphor-react";
 import {Input} from "@/components/general/Input";
 import MyDropdown from "@/components/general/dropdown/MyDropdown";
+import {Group, GroupModel} from "@/models/group";
+import {DataApi} from "@/models/dataApi";
+import {Product, ProductModel} from "@/models/product/product";
+import {ProductService} from "@/services/productService";
+import {ModelTemplate} from "@/components/template/modelTemplate";
 
 const BillCreatePage: React.FC = () => {
-    const [checkedItems, setCheckedItems] = useState<string[]>([]);
+    const apiClient = new DataApi('product');
+    const groupApiClient = new DataApi('group');
+    const [groupList, setGroupList] = useState([]);
+    const productService = new ProductService();
+    const product = new ProductModel();
+    const [list, setList] = useState([]);
+
+    const [checkedItems, setCheckedItems] = useState<ModelTemplate[]>([]);
     const [filteredItems, setFilteredItem] = useState(productDemo);
     const [searchName, setSearchName] = useState("");
 
-    const handleItemClick = (group: string, name: string) => {
-        const isChecked = checkedItems.includes(`${group}-${name}`);
+    const getGroupList = () => {
+        groupApiClient.getList()
+            .then((result) => {
+                if (result.status === 200) {
+                    setGroupList([]);
+                    const getGroupList = result.data.map((item: Group) => new GroupModel(item.id, item.code, item.name, item.created));
+                    setGroupList(getGroupList);
+                } else {
+                    console.log(result.status)
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            }).finally(() => {
+        });
+    }
+
+    const getList = () => {
+        apiClient.getList()
+            .then((result) => {
+                if (result.status === 200) {
+                    setList([]);
+                    const productList = result.data.map((item: Product) => new ProductModel(
+                        item.id, item.code, item.name, item.cost, item.price, item.created, item.group_code));
+                    setList(productList);
+                } else {
+                    console.log(result.status)
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+            });
+    }
+
+    const handleItemClick = (addedItem: ModelTemplate) => {
+        const isChecked = checkedItems.includes(addedItem);
         if (isChecked) {
-            setCheckedItems(checkedItems.filter(item => item !== `${group}-${name}`));
+            setCheckedItems(checkedItems.filter(item => item !== addedItem));
         } else {
-            setCheckedItems([...checkedItems, `${group}-${name}`]);
+            setCheckedItems([...checkedItems, addedItem]);
         }
     };
 
@@ -33,6 +81,11 @@ const BillCreatePage: React.FC = () => {
         setFilteredItem(temp);
     }
 
+    useEffect(() => {
+        getGroupList()
+        getList()
+    }, []);
+
     return (
         <div className={"flex flex-row h-full"}>
             <div className={"flex-1 h-full px-3"}>
@@ -47,30 +100,35 @@ const BillCreatePage: React.FC = () => {
                     </div>
                 </div>
                 <div className={" h-[calc(100%_-_60px)] overflow-scroll"}>
-                    {filteredItems && filteredItems.map((dad, index) =>
+                    {groupList && groupList.map((dad: GroupModel, index) =>
                         <div key={index} className={"flex-1 mt-2"}>
-                            <div className={"text-small font-bold capitalize"}>{dad.group}</div>
+                            <div className={"text-small font-bold capitalize"}>{dad.name}</div>
                             <div className={"grid grid-cols-3 gap-2"}>
-                                {dad.child.map((item, index) =>
-                                    <div key={index} className={"bill-item relative border-[0.5px] cursor-pointer"}
-                                         onClick={() => handleItemClick(dad.group, item.name)}>
-                                        <div>
-                                            <input
-                                                type="checkbox"
-                                                id={`${dad.group}-${item.name}`}
-                                                onChange={() => {
-                                                }} // Disable default checkbox behavior
-                                                checked={checkedItems.includes(`${dad.group}-${item.name}`)}
-                                                style={{display: 'none'}} // Hide default checkbox
-                                            />
-                                            <label htmlFor={`${dad.group}-${item.name}`}>{item.name}</label>
-                                        </div>
-                                        {checkedItems.includes(`${dad.group}-${item.name}`) && (
-                                            <Check className={"absolute right-5 top-3 text-success "}
-                                                   weight="bold" size={25}/>
-                                        )}
-                                    </div>
-                                )}
+                                {list.filter((item: Product) => item.group_code == dad.code).length > 0 ?
+                                    list.filter((item: Product) => item.group_code == dad.code)
+                                        .map((item: ProductModel, index) =>
+                                            <div key={index}
+                                                 className={"bill-item relative border-[0.5px] cursor-pointer"}
+                                                 onClick={() => handleItemClick(item)}>
+                                                <div>
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`${dad.code}-${item.code}`}
+                                                        onChange={() => {
+                                                        }} // Disable default checkbox behavior
+                                                        checked={checkedItems.includes(item)}
+                                                        style={{display: 'none'}} // Hide default checkbox
+                                                    />
+                                                    <label htmlFor={`${dad.code}-${item.code}`}>{item.name}</label>
+                                                </div>
+                                                {checkedItems.includes(item) && (
+                                                    <Check className={"absolute right-5 top-3 text-success "}
+                                                           weight="bold" size={25}/>
+                                                )}
+                                            </div>
+                                        ) :
+                                    <div className={"my-3 mx-5"}>
+                                        No Items</div>}
                             </div>
                         </div>
                     )}
@@ -78,11 +136,24 @@ const BillCreatePage: React.FC = () => {
             </div>
             <div className={"w-[30vw]"}>
                 <h2>Checked Items</h2>
-                <ul>
-                    {checkedItems.map((item, index) => (
-                        <li key={index}>{item}</li>
+                <div className={""}>
+                    {checkedItems.map((item: ModelTemplate, index) => (
+                        <div key={index}
+                             className={"py-4 px-3 rounded-[5px] w-[95%] " +
+                                 "border-[0.5px] bg-amber-300 text-default " +
+                                 "flex cursor-pointer"}>
+                            <div
+                                className={"me-4 px-1 overflow-hidden w-0 hover:w-fit " +
+                                    "transition duration-200 flex items-center rounded-sm " +
+                                    "bg-white text-default-"}>
+                                <Trash
+                                    className={""}
+                                    size={16}/>
+                            </div>
+                            <div>{(item as ProductModel).name}</div>
+                        </div>
                     ))}
-                </ul>
+                </div>
             </div>
         </div>
     );

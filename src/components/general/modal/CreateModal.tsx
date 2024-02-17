@@ -29,7 +29,7 @@ export default function CreateModal({
 
     const insertHandle = async () => {
         const data: { [key: string]: string } = model.getCreatedField().reduce((result, obj) => {
-            result[obj.field] = obj.value;
+            result[obj.field] = obj.value.trim();
             return result;
         }, {});
 
@@ -73,24 +73,9 @@ export default function CreateModal({
                         <ImageUpload/>
                         {
                             isCreate ? model.getCreatedField().map((item, index) =>
-                                <Input
-                                    key={index}
-                                    label={(item as Field).name}
-                                    value={(item as Field).value}
-                                    onChange={(input) => {
-                                        console.log(input as string);
-                                        (item as Field).initData(input)
-                                    }}/>
+                                (item as Field).type
                             ) : data?.getAllField().map((item, index) =>
-                                <Input
-                                    key={index}
-                                    label={(item as Field).name}
-                                    value={(item as Field).value}
-                                    setDisabled={!((item as Field).isEdit)}
-                                    onChange={(input) => {
-                                        (item as Field).initData(input)
-                                        console.log((item as Field).value)
-                                    }}/>
+                                (item as Field).type
                             )
                         }
                     </div>

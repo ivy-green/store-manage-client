@@ -7,6 +7,7 @@ export interface Product {
     name: string;
     cost: number;
     price: number;
+    group_code: string;
     created: string;
 }
 
@@ -15,22 +16,16 @@ export class ProductModel implements ModelTemplate {
     nameField: Field;
     costField: Field;
     priceField: Field;
+    groupField: Field;
     tableData: Field[];
 
-    constructor();
-    constructor(id: string,
-                code: string,
-                name: string,
-                cost: number,
-                price: number,
-                created: string,
-    );
     constructor(public id?: string,
                 public code?: string,
                 public name?: string,
                 public cost?: number,
                 public price?: number,
                 public created?: string,
+                public group_code?: string,
     ) {
         this.id = id ?? "";
         this.code = code ?? "";
@@ -38,6 +33,7 @@ export class ProductModel implements ModelTemplate {
         this.cost = cost ?? 0;
         this.price = price ?? 0;
         this.created = created ?? "";
+        this.group_code = group_code ?? "";
 
         this.codeField = new Field(
             "code",
@@ -59,6 +55,11 @@ export class ProductModel implements ModelTemplate {
             "price",
             "Price",
             price
+        );
+        this.groupField = new Field(
+            "group_product",
+            "Group",
+            group_code
         );
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.priceField];

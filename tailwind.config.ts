@@ -26,6 +26,7 @@ const config: Config = {
             },
             textColor: {
                 'default': '#3d3d3d',
+                'white': 'var(--clr-white)',
                 'success': 'var(--bg-success)',
             },
             padding: {

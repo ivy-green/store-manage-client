@@ -21,16 +21,6 @@ export class UtilityModel implements ModelTemplate {
     newNumField: Field;
     tableData: Field[];
 
-    // constructor();
-    // constructor(id: string,
-    //             code: string,
-    //             name: string,
-    //             cost: number,
-    //             unit: String,
-    //             oldNum: number,
-    //             newNum: number,
-    //             created: string,
-    // );
     constructor(public id?: string,
                 public code?: string,
                 public name?: string,
@@ -40,45 +30,45 @@ export class UtilityModel implements ModelTemplate {
                 public newNum?: number,
                 public created?: string,
     ) {
-        this.id = id ?? "";
-        this.code = code ?? "";
-        this.name = name ?? "";
+        this.id = id;
+        this.code = code;
+        this.name = name;
         this.cost = cost ?? 0;
-        this.unit = unit ?? "";
+        this.unit = unit;
         this.oldNum = oldNum ?? 0;
         this.newNum = newNum ?? 0;
-        this.created = created ?? "";
+        this.created = created;
 
         this.codeField = new Field(
             "code",
             "Utility Code",
-            code ?? "",
+            code,
             false
         );
         this.nameField = new Field(
             "name",
             "Name",
-            name ?? "",
+            name,
         );
         this.costField = new Field(
             "cost",
             "Cost",
-            cost ?? ""
+            cost
         );
         this.unitField = new Field(
             "unit",
             "Unit",
-            unit ?? ""
+            unit
         );
         this.oldNumField = new Field(
             "oldNum",
             "Old number",
-            oldNum ?? ""
+            oldNum
         );
         this.newNumField = new Field(
             "newNum",
             "New number",
-            newNum ?? ""
+            newNum
         );
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.newNumField];
