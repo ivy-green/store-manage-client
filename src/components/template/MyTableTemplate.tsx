@@ -1,24 +1,16 @@
 'use client'
 
-import {List, Modal} from "reactstrap";
 import MyButton from "@/components/general/MyButton";
 import {Plus} from "phosphor-react";
 import {MyTable} from "@/components/general/table/MyTable";
 import ConfirmDialog from "@/components/general/dialog/ConfirmDialog";
 import React, {useEffect, useState} from "react";
-import {string} from "prop-types";
-import {Product, ProductModel} from "@/models/product/product";
 import {ModelTemplate} from "@/components/template/modelTemplate";
 import {tableSelector} from "@/selectors/consumerSelector";
 import {useDispatch, useSelector} from "react-redux";
 import toast from "react-hot-toast";
 import tableSlice from "@/features/table/tableSlice";
-import {ModelViewTemplate} from "@/components/template/modelViewTemplate";
-import {ProductService} from "@/services/productService";
-import {Input} from "@/components/general/Input";
 import {ServiceTemplate} from "@/components/template/serviceTemplate";
-import ImageUpload from "@/components/general/image/ImageUpload";
-import {Field} from "@/components/template/field";
 import CreateModal from "@/components/general/modal/CreateModal";
 
 interface MyTablePageProps {

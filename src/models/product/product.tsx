@@ -1,5 +1,8 @@
+'use client'
+
 import {ModelTemplate} from "@/components/template/modelTemplate";
 import {Field} from "@/components/template/field";
+import {MySelectorField} from "@/components/general/FieldType";
 
 export interface Product {
     id: string;
@@ -36,31 +39,43 @@ export class ProductModel implements ModelTemplate {
         this.group_code = group_code ?? "";
 
         this.codeField = new Field(
-            "code",
-            "Product Code",
-            code,
-            false
+            {
+                field: "code",
+                name: "Product Code",
+                value: code,
+                isEdit: false
+            }
         );
         this.nameField = new Field(
-            "name",
-            "Name",
-            name,
+            {
+                field: "name",
+                name: "Name",
+                value: name,
+            }
         );
         this.costField = new Field(
-            "cost",
-            "Cost",
-            cost
+            {
+                field: "cost",
+                name: "Cost",
+                value: cost
+            }
         );
         this.priceField = new Field(
-            "price",
-            "Price",
-            price
+            {
+                field: "price",
+                name: "Price",
+                value: price
+            }
         );
         this.groupField = new Field(
-            "group_product",
-            "Group",
-            group_code
+            {
+                field: "group_code",
+                name: "Group",
+                value: group_code,
+            }
         );
+
+        this.groupField.setType(<MySelectorField name={"group"} apiPath={"group"} field={this.groupField}/>)
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.priceField];
     }
@@ -86,7 +101,7 @@ export class ProductModel implements ModelTemplate {
     }
 
     getCreatedField(): any[] {
-        return [this.nameField, this.costField, this.priceField];
+        return [this.nameField, this.costField, this.priceField, this.groupField];
     }
 
 }

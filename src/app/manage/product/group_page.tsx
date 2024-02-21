@@ -19,7 +19,8 @@ interface groupPageProps {
 
 export default function GroupPage({
                                       list,
-                                      setGroupChosen= () => {},
+                                      setGroupChosen = () => {
+                                      },
                                       groupChosen = ""
                                   }: groupPageProps) {
     const [openOptionModal, setOpenOptionModal] = useState(false);
@@ -106,8 +107,8 @@ export default function GroupPage({
             list && list.map((item: Group, index) =>
                 <div key={index}
                      className={"cursor-pointer my-1 py-3 px-4 rounded-[5px] border-[0.5px] shadow-[0_5px_5px_0px_var(--clr-white)] " +
-                         `${groupChosen == item.code ? "bg-amber-300 font-bold text-white" : ""}`}
-                     onClick={() => setGroupChosen(item.code)}>
+                         `${groupChosen == item.name ? "bg-amber-300 font-bold text-white" : ""}`}
+                     onClick={() => setGroupChosen(item.name)}>
                     {item.name}
                 </div>)
         }

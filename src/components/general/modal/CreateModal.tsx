@@ -29,6 +29,7 @@ export default function CreateModal({
 
     const insertHandle = async () => {
         const data: { [key: string]: string } = model.getCreatedField().reduce((result, obj) => {
+            console.log(obj.value)
             result[obj.field] = obj.value.trim();
             return result;
         }, {});
@@ -68,8 +69,8 @@ export default function CreateModal({
                 <div className={"font-medium text-2xl"}>
                     {isCreate ? 'Create new one' : 'Information'}
                 </div>
-                <div className={"overflow-scroll h-[92%] px-3 py-1"}>
-                    <div className={""}>
+                <div className={"overflow-scroll h-[92%] py-5 px-3 py-1"}>
+                    <div className={" my-5"}>
                         <ImageUpload/>
                         {
                             isCreate ? model.getCreatedField().map((item, index) =>
@@ -79,7 +80,8 @@ export default function CreateModal({
                             )
                         }
                     </div>
-                    <MyButton label={"Submit"} onTap={isCreate ? insertHandle : updateHandle}/>
+                    <MyButton borderRadius={"rounded-[5px]"} label={"Submit"}
+                              onTap={isCreate ? insertHandle : updateHandle}/>
                 </div>
             </div>
         </div>
