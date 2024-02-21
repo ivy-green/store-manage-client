@@ -23,19 +23,13 @@ interface MyTablePageProps {
     model: ModelTemplate;
 }
 
-interface objectData {
-    id: string;
-
-    [key: string]: any;
-}
-
 export default function MyTableTemplate({
                                             isInsert = true,
                                             list,
                                             model,
                                             service,
                                             getList,
-                                            headerTitle
+                                            headerTitle,
                                         }: MyTablePageProps) {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [isOpenModel, setIsOpenModal] = useState(false);
@@ -75,18 +69,18 @@ export default function MyTableTemplate({
         setIsOpenDelete(false);
     }
     const modalConfirm = async () => {
-        console.log("confirm click")
         modalClose();
         await deleteHandle();
         dispatch(tableSlice.actions.handleSelected([]));
     }
+
 
     useEffect(() => {
         if (isLoading) {
             getList();
             setIsLoading(false)
         }
-    }, [isLoading, isOpenModel, isOpenDelete, list])
+    }, [isOpenModel, isOpenDelete, list])
 
     return <>
         <div className={" px-x-body py-y-body"}>
@@ -105,9 +99,11 @@ export default function MyTableTemplate({
                 </div>}
             </div>
             <div className={"body"}>
-                {!isLoading && <MyTable list={list}
-                                        deleteCallback={() => setIsOpenDelete(true)}
-                                        callback={detailsHandle}/>}
+                {list && <MyTable list={list}
+                                  deleteCallback={() => setIsOpenDelete(true)}
+                                  callback={detailsHandle}
+                />}
+
             </div>
 
         </div>

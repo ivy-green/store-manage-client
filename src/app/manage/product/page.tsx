@@ -31,17 +31,14 @@ const ProductPage: React.FC = () => {
                     const productList = result.data.map((item: Product) => new ProductModel(
                         item.id, item.code, item.name, item.cost, item.price, item.created, item.group_code));
                     setList(productList);
-                    setDisplayList(productList);
+                    setDisplayList(productList)
                 } else {
                     console.log(result.status)
                 }
             })
             .catch((error) => {
                 console.error('Error:', error);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
+            }).finally(() => setIsLoading(false))
     }
 
     const getGroupList = () => {
@@ -58,24 +55,25 @@ const ProductPage: React.FC = () => {
             })
             .catch((error) => {
                 console.error('Error:', error);
-            }).finally(() => {
-            setIsLoading(false);
-        });
+            }).finally(() => setIsLoading(false))
     }
 
-    useEffect(() => {
-        getList();
-        getGroupList();
-    }, [])
 
     const getListByOption = () => {
+        setIsLoading(true)
         if (option != "") {
             let filteredList = list.filter((item: ProductModel) => item.group_code == option)
             setDisplayList(filteredList)
         } else {
             setDisplayList(list)
         }
+        setIsLoading(false)
     }
+
+    useEffect(() => {
+        getList();
+        getGroupList();
+    }, [])
 
     useEffect(() => {
         getListByOption()
@@ -88,13 +86,13 @@ const ProductPage: React.FC = () => {
                 groupChosen={option}
                 setGroupChosen={(value) => setOption(value)}/>
             <div className={" w-[75%]"}>
-                <MyTableTemplate
+                {!isLoading && <MyTableTemplate
                     headerTitle={"Product List"}
                     service={productService}
                     getList={getListByOption}
                     model={product}
                     list={displayList}
-                />
+                />}
             </div>
         </div>
     );

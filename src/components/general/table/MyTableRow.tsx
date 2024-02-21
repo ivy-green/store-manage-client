@@ -69,6 +69,11 @@ export const MyTableRow = ({
         }
     };
 
+    useEffect(() => {
+        console.log("update data row")
+        setTableList(Array.isArray(data) ? data : data.getAllField());
+    }, [data]);
+
     return (
         <div className={className}>
             <div className={checkBoxClassName + " relative w-[40px] flex-none checkbox"}>

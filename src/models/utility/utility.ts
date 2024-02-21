@@ -40,35 +40,46 @@ export class UtilityModel implements ModelTemplate {
         this.created = created;
 
         this.codeField = new Field(
-            "code",
-            "Utility Code",
-            code,
-            false
+            {
+                field: "code",
+                name: "Utility Code",
+                value: code,
+                isEdit: false
+            }
         );
         this.nameField = new Field(
-            "name",
-            "Name",
-            name,
+            {
+                field: "name",
+                name: "Name",
+                value: name,
+            }
         );
         this.costField = new Field(
-            "cost",
-            "Cost",
-            cost
+            {
+                field: "cost",
+                name: "Cost",
+                value: cost
+            }
         );
         this.unitField = new Field(
-            "unit",
-            "Unit",
-            unit
-        );
+            {
+                field: "unit",
+                name: "Unit",
+                value: unit
+            });
         this.oldNumField = new Field(
-            "oldNum",
-            "Old number",
-            oldNum
+            {
+                field: "oldNum",
+                name: "Old number",
+                value: oldNum
+            }
         );
         this.newNumField = new Field(
-            "newNum",
-            "New number",
-            newNum
+            {
+                field: "newNum",
+                name: "New number",
+                value: newNum
+            }
         );
 
         this.tableData = [this.codeField, this.nameField, this.costField, this.newNumField];

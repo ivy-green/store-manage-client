@@ -19,7 +19,7 @@ const BillCreatePage: React.FC = () => {
     const [list, setList] = useState([]);
 
     const [checkedItems, setCheckedItems] = useState<ModelTemplate[]>([]);
-    const [filteredItems, setFilteredItem] = useState(productDemo);
+    const [filteredItems, setFilteredItem] = useState([]);
     const [searchName, setSearchName] = useState("");
 
     const getGroupList = () => {
@@ -47,6 +47,7 @@ const BillCreatePage: React.FC = () => {
                     const productList = result.data.map((item: Product) => new ProductModel(
                         item.id, item.code, item.name, item.cost, item.price, item.created, item.group_code));
                     setList(productList);
+                    setFilteredItem(productList)
                 } else {
                     console.log(result.status)
                 }
@@ -70,13 +71,12 @@ const BillCreatePage: React.FC = () => {
     const searchByName = (name: string) => {
         setSearchName(name);
         if (name.trim() == "") {
-            setFilteredItem(productDemo);
+            setFilteredItem(list);
             return;
         }
 
-        let temp = filteredItems.filter(group =>
-            group.child.some(product =>
-                product.name.toLowerCase().includes(name.toLowerCase())));
+        let temp = list.filter((product: any) =>
+            product.name.toLowerCase().includes(name.toLowerCase()));
 
         setFilteredItem(temp);
     }
@@ -96,7 +96,8 @@ const BillCreatePage: React.FC = () => {
                             value={searchName} onChange={searchByName}/>
                     </div>
                     <div className={"flex-1"}>
-                        <MyDropdown width={"w-full"}/>
+                        <MyDropdown width={"w-full"} list={[]} getVal={() => {
+                        }}/>
                     </div>
                 </div>
                 <div className={" h-[calc(100%_-_60px)] overflow-scroll"}>
@@ -104,8 +105,8 @@ const BillCreatePage: React.FC = () => {
                         <div key={index} className={"flex-1 mt-2"}>
                             <div className={"text-small font-bold capitalize"}>{dad.name}</div>
                             <div className={"grid grid-cols-3 gap-2"}>
-                                {list.filter((item: Product) => item.group_code == dad.code).length > 0 ?
-                                    list.filter((item: Product) => item.group_code == dad.code)
+                                {filteredItems.filter((item: Product) => item.group_code == dad.name).length > 0 ?
+                                    filteredItems.filter((item: Product) => item.group_code == dad.name)
                                         .map((item: ProductModel, index) =>
                                             <div key={index}
                                                  className={"bill-item relative border-[0.5px] cursor-pointer"}
